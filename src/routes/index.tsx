@@ -7,14 +7,20 @@ import {
   Mic,
   ScanLine,
   CheckCircle2,
-  Download,
+  ExternalLink,
   UserRound,
   HeartHandshake,
   Bell,
   ShieldCheck,
 } from "lucide-react";
 import { Reveal } from "@/components/verifi/Reveal";
-import verifiWordmark from "@/assets/wordmark2.png.asset.json";
+import verifiLogoWhite from "@/assets/verifi-logo-white.png";
+import verifiLogoDark from "@/assets/verifi-logo-dark.png";
+import verifiIcon from "@/assets/verifi-icon.svg";
+import heroBg from "@/assets/hero-bg.jpg";
+import pitchDeckSlide from "@/assets/pitch-deck-slide.png";
+import teamTiago from "@/assets/team-tiago.jpg";
+import teamEber from "@/assets/team-eber.jpg";
 
 const TITLE = "Verifi — the voice-first medication safety check for seniors";
 const DESCRIPTION =
@@ -34,8 +40,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const DEMO_URL = "[DEMO_URL]";
-const PITCH_DECK_PDF_URL = "[PITCH_DECK_PDF_URL]";
+const DEMO_URL = "https://certo-509809.web.app/";
+const PITCH_DECK_URL = "https://screenprint-magic.lovable.app/";
 
 type Lang = "en" | "pt";
 
@@ -87,6 +93,22 @@ const copy = {
     glance: "See each day at a glance.",
     builtWith: "Built with",
     builtBy: "Built by",
+    team: [
+      {
+        name: "Tiago Inês",
+        role: "Co-founder, Lead developer",
+        bio: "Computer engineering student, aspiring software developer",
+        image: teamTiago,
+        linkedin: "https://www.linkedin.com/in/apoll011/",
+      },
+      {
+        name: "Éber Rodrigues",
+        role: "Co-founder Design & Product",
+        bio: "Information Management student, aspiring Product Manager",
+        image: teamEber,
+        linkedin: "https://www.linkedin.com/in/eber-rodrigues",
+      },
+    ],
     seeItWork: "See it work.",
     disclaimer: "Hackathon prototype. Not a certified medical device.",
   },
@@ -137,6 +159,22 @@ const copy = {
     glance: "Veja cada dia num relance.",
     builtWith: "Feito com",
     builtBy: "Feito por",
+    team: [
+      {
+        name: "Tiago Inês",
+        role: "Co-founder, Lead developer",
+        bio: "Estudante de Engenharia Informática, aspirante a software developer",
+        image: teamTiago,
+        linkedin: "https://www.linkedin.com/in/apoll011/",
+      },
+      {
+        name: "Éber Rodrigues",
+        role: "Co-founder Design & Product",
+        bio: "Estudante de Gestão de Informação, aspirante a Product Manager",
+        image: teamEber,
+        linkedin: "https://www.linkedin.com/in/eber-rodrigues",
+      },
+    ],
     seeItWork: "Veja a funcionar.",
     disclaimer: "Protótipo de hackathon. Não é um dispositivo médico certificado.",
   },
@@ -151,24 +189,27 @@ const focusRing =
 
 function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`font-display text-xl font-extrabold tracking-tight ${className}`}>
-      Verifi
-    </span>
+    <img
+      src={verifiLogoWhite}
+      alt="Verifi"
+      className={`h-8 w-auto object-contain ${className}`}
+    />
   );
 }
 
-function LinkedLogo() {
+function LinkedLogo({ variant = "white" }: { variant?: "white" | "dark" }) {
   const t = useT();
+  const src = variant === "white" ? verifiLogoWhite : verifiLogoDark;
   return (
     <a
       href="#top"
       aria-label={t.backToTop}
-      className={`relative inline-flex shrink-0 items-center rounded-lg before:absolute before:inset-y-0 before:left-0 before:w-[30px] before:rounded-full before:bg-on-dark sm:before:w-9 ${focusRing}`}
+      className={`relative inline-flex shrink-0 items-center rounded-lg ${focusRing}`}
     >
       <img
-        src={verifiWordmark.url}
+        src={src}
         alt="Verifi"
-        className="relative z-10 h-[26px] w-auto object-contain sm:h-9"
+        className="h-7 w-auto object-contain sm:h-9"
       />
     </a>
   );
@@ -218,12 +259,22 @@ function PrimaryCta({ className = "" }: { className?: string }) {
   );
 }
 
-function SecondaryCta({ className = "" }: { className?: string }) {
+function SecondaryCta({
+  className = "",
+  variant = "light",
+}: {
+  className?: string;
+  variant?: "light" | "dark";
+}) {
   const t = useT();
+  const styles =
+    variant === "light"
+      ? "border-2 border-brand-ink bg-white/80 text-brand-ink hover:bg-white hover:shadow-md"
+      : "border-2 border-on-dark text-on-dark hover:bg-on-dark/10";
   return (
     <a
       href="#pitch-deck"
-      className={`inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-on-dark px-8 text-base font-semibold text-on-dark transition-colors hover:bg-on-dark/10 ${focusRing} ${className}`}
+      className={`inline-flex min-h-14 items-center justify-center rounded-2xl px-8 text-base font-semibold backdrop-blur-sm transition-all ${styles} ${focusRing} ${className}`}
     >
       {t.viewDeck}
     </a>
@@ -250,7 +301,7 @@ function Index() {
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-50 border-b border-on-dark/10 bg-brand-ink/95 backdrop-blur">
           <nav className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:px-5">
-            <LinkedLogo />
+            <LinkedLogo variant="white" />
             <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex">
               <a
                 href={DEMO_URL}
@@ -291,26 +342,35 @@ function Index() {
 
         <main id="top">
           {/* HERO */}
-          <section className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center bg-brand-ink px-5 py-20 text-center text-on-dark sm:py-28">
-            <div className="mx-auto max-w-3xl">
+          <section className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center overflow-hidden px-5 py-20 text-center sm:py-28">
+            {/* Hero Background Image - exact uploaded image with no blue bg overlays */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={heroBg}
+                alt="Senior verifying medication with Verifi"
+                className="h-full w-full object-cover object-[75%_center] sm:object-center"
+              />
+            </div>
+
+            <div className="relative z-10 mx-auto max-w-3xl">
               <Reveal>
-                <span className="inline-flex items-center gap-2 rounded-full border border-on-dark/25 bg-on-dark/5 px-4 py-1.5 text-sm font-semibold text-on-dark/85">
+                <span className="inline-flex items-center gap-2 rounded-full border border-on-dark/25 bg-black/40 px-4 py-1.5 text-sm font-semibold text-on-dark shadow-sm backdrop-blur-md">
                   {t.tag}
                 </span>
-                <h1 className="mt-6 text-4xl leading-[1.08] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                <h1 className="mt-6 text-4xl leading-[1.08] font-extrabold tracking-tight text-on-dark drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] sm:text-5xl lg:text-6xl">
                   {t.h1}
                 </h1>
-                <p className="mt-6 text-lg text-on-dark/80">{t.sub}</p>
+                <p className="mt-6 text-lg font-medium text-on-dark drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)] sm:text-xl">{t.sub}</p>
                 <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                   <PrimaryCta />
-                  <SecondaryCta />
+                  <SecondaryCta variant="dark" />
                 </div>
               </Reveal>
             </div>
 
-            <div className="absolute bottom-6 left-5 sm:left-8">
+            <div className="relative z-10 mt-12 sm:absolute sm:bottom-6 sm:left-8 sm:mt-0">
               <Reveal delay={0.15}>
-                <span className="inline-flex items-center gap-2.5 rounded-full border border-on-dark/15 bg-on-dark/5 py-2 pr-4 pl-3 text-xs font-semibold text-on-dark/75">
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-on-dark/25 bg-black/40 py-2 pr-4 pl-3 text-xs font-semibold text-on-dark shadow-sm backdrop-blur-md">
                   <Mic className="size-3.5 text-brand-green" aria-hidden="true" />
                   <span className="flex items-center gap-3">
                     <span className="flex items-center gap-1.5">
@@ -356,9 +416,11 @@ function Index() {
                     <p className="mt-3 text-lg text-brand-deep/75">{t.reminderLine}</p>
                   </div>
                   <div className="bg-brand-deep p-10 text-on-dark">
-                    <ShieldCheck className="size-8 text-brand-green" aria-hidden="true" />
-                    <h2 className="mt-5 text-2xl font-bold">Verifi</h2>
-                    <p className="mt-3 text-lg text-on-dark/90">{t.verifiLine}</p>
+                    <div className="flex items-center gap-3">
+                      <ShieldCheck className="size-8 text-brand-green" aria-hidden="true" />
+                      <img src={verifiLogoWhite} alt="Verifi" className="h-7 w-auto object-contain" />
+                    </div>
+                    <p className="mt-5 text-lg text-on-dark/90">{t.verifiLine}</p>
                   </div>
                 </div>
                 <p className="mt-8 text-center text-lg text-brand-deep/75">{t.gapLine}</p>
@@ -370,9 +432,12 @@ function Index() {
           <section className="px-5 py-20 sm:py-28">
             <div className="mx-auto max-w-6xl">
               <Reveal>
-                <h2 className="text-3xl font-extrabold tracking-tight text-brand-deep sm:text-4xl">
-                  {t.howItWorks}
-                </h2>
+                <div className="flex items-center gap-3">
+                  <img src={verifiIcon} alt="" className="h-8 w-auto object-contain" aria-hidden="true" />
+                  <h2 className="text-3xl font-extrabold tracking-tight text-brand-deep sm:text-4xl">
+                    {t.howItWorks}
+                  </h2>
+                </div>
               </Reveal>
               <div className="relative mt-14 grid gap-12 sm:grid-cols-3">
                 <div
@@ -434,16 +499,27 @@ function Index() {
                 <h2 className="text-3xl font-extrabold tracking-tight text-brand-deep sm:text-4xl">
                   {t.theDeck}
                 </h2>
-                <div className="mt-10 flex aspect-video w-full flex-col items-center justify-center rounded-3xl bg-brand-ink px-6 text-center text-on-dark">
-                  <Wordmark className="text-4xl sm:text-6xl" />
-                  <p className="mt-4 max-w-md text-sm text-on-dark/75 sm:text-lg">{t.h1}</p>
-                </div>
                 <a
-                  href={PITCH_DECK_PDF_URL}
+                  href={PITCH_DECK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-10 block overflow-hidden rounded-3xl border border-brand-deep/15 bg-white shadow-xl transition-all hover:scale-[1.01] hover:shadow-2xl"
+                  aria-label={t.viewDeck}
+                >
+                  <img
+                    src={pitchDeckSlide}
+                    alt="Verifi pitch deck slide"
+                    className="w-full h-auto object-cover"
+                  />
+                </a>
+                <a
+                  href={PITCH_DECK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-brand-accent px-8 text-base font-semibold text-on-dark transition-transform hover:scale-[1.02] ${focusRing}`}
                 >
-                  <Download className="size-5" aria-hidden="true" />
-                  {t.downloadPdf}
+                  <ExternalLink className="size-5" aria-hidden="true" />
+                  {t.viewDeck}
                 </a>
               </Reveal>
             </div>
@@ -460,7 +536,10 @@ function Index() {
               <div className="mt-12 grid gap-6 md:grid-cols-2">
                 <Reveal>
                   <div className="h-full rounded-3xl border border-brand-deep/15 bg-background p-8">
-                    <UserRound className="size-8 text-brand-accent" aria-hidden="true" />
+                    <div className="flex items-center justify-between">
+                      <UserRound className="size-8 text-brand-accent" aria-hidden="true" />
+                      <img src={verifiIcon} alt="Verifi icon" className="h-6 w-auto object-contain" />
+                    </div>
                     <h3 className="mt-5 text-2xl font-bold text-brand-ink">{t.userMode}</h3>
                     <p className="mt-3 text-brand-deep/75">{t.userModeText}</p>
                   </div>
@@ -505,18 +584,22 @@ function Index() {
                 </h2>
               </Reveal>
               <div className="mt-12 grid gap-6 sm:grid-cols-2">
-                {["AB", "CD"].map((initials, i) => (
-                  <Reveal key={initials} delay={i * 0.08}>
-                    <div className="h-full rounded-3xl border border-brand-deep/15 bg-background p-8 text-center">
-                      <span className="mx-auto flex size-20 items-center justify-center rounded-full bg-brand-accent font-display text-xl font-bold text-on-dark">
-                        {initials}
-                      </span>
-                      <h3 className="mt-5 text-xl font-bold text-brand-ink">[Name]</h3>
-                      <p className="mt-1 text-sm font-semibold text-brand-accent">[Role]</p>
-                      <p className="mt-4 text-sm text-brand-deep/75">[Short bio]</p>
+                {t.team.map((member, i) => (
+                  <Reveal key={member.name} delay={i * 0.08}>
+                    <div className="h-full rounded-3xl border border-brand-deep/15 bg-background p-8 text-center shadow-xs">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="mx-auto size-28 rounded-full object-cover shadow-md ring-4 ring-brand-green/20"
+                      />
+                      <h3 className="mt-5 text-xl font-bold text-brand-ink">{member.name}</h3>
+                      <p className="mt-1 text-sm font-semibold text-brand-accent">{member.role}</p>
+                      <p className="mt-4 text-sm text-brand-deep/75">{member.bio}</p>
                       <a
-                        href="#"
-                        className={`mt-6 inline-flex min-h-11 items-center justify-center rounded-xl border border-brand-deep/30 px-5 text-sm font-semibold text-brand-deep hover:bg-brand-accent/10 ${focusRing}`}
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`mt-6 inline-flex min-h-11 items-center justify-center rounded-xl border border-brand-deep/30 px-5 text-sm font-semibold text-brand-deep transition-colors hover:bg-brand-accent/10 ${focusRing}`}
                       >
                         LinkedIn
                       </a>
@@ -536,7 +619,7 @@ function Index() {
                 </h2>
                 <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
                   <PrimaryCta />
-                  <SecondaryCta />
+                  <SecondaryCta variant="dark" />
                 </div>
               </Reveal>
             </div>
@@ -546,7 +629,12 @@ function Index() {
         <footer className="bg-brand-deep px-5 pb-14 text-on-dark">
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 border-t border-on-dark/20 pt-10 text-center sm:flex-row sm:justify-between sm:text-left">
             <LinkedLogo />
-            <p className="text-sm text-on-dark/75">[email or handle]</p>
+            <a
+              href="mailto:eberb.rodrigues@gmail.com"
+              className={`text-sm text-on-dark/80 transition-colors hover:text-brand-green hover:underline ${focusRing}`}
+            >
+              eberb.rodrigues@gmail.com
+            </a>
             <p className="text-xs text-on-dark/60">{t.disclaimer}</p>
           </div>
         </footer>
